@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.user.dao.LoginDao">
+
+	<select id="login" parameterType="string" resultType="com.mycom.myapp.user.dto.UserDto">
+		select user_id, user_name, user_nickname, user_password, user_email, user_profile_image_url, user_register_date, code
+		from users
+		where user_email = #{userEmail}
+	</select>
+
+	<select id="findPassword" parameterType="string" resultType="com.mycom.myapp.user.dto.UserDto">
+		select user_id, user_name, user_nickname, user_password, user_email, user_profile_image_url, user_register_date
+		from users
+		where user_email = #{userEmail}
+	</select>
+		
+	
+</mapper>

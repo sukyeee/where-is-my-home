@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.review.dao.ReviewDao">
+	
+	<!-- 아파트 -->
+	<select id="getHouseReviewList" parameterType="map" resultType="com.mycom.myapp.review.dto.HouseReviewDto">
+		select hr.review_id, hr.score, hr.house_id,
+			   u.user_id, u.user_nickname, u.user_score,
+			   hr.content, hr.register_date
+		from house_review hr,
+			 users u
+		where u.user_id = hr.user_id
+			  and hr.house_id = #{houseId}
+		order by hr.review_id desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="getHouseReviewScore" parameterType="string" resultType="double">
+		select ifnull(avg(score), 0) avg
+		from house_review
+		where house_id = #{houseId}
+	</select>
+	
+	<insert id="houseReviewInsert" parameterType="com.mycom.myapp.review.dto.HouseReviewDto">
+		insert into house_review (house_id, content, score, user_id, register_date)
+		values (#{houseId}, #{content}, #{score}, #{userId}, now())
+	</insert>
+	
+	<update id="houseReviewUpdate" parameterType="com.mycom.myapp.review.dto.HouseReviewDto" useGeneratedKeys="true" keyProperty="reviewId">
+		update house_review
+		set content = #{content},
+			score = #{score}
+		where review_id = #{reviewId}
+	</update>
+	
+	<delete id="houseReviewDelete" parameterType="int">
+		delete from house_review
+		where review_id = #{reviewId}
+	</delete>
+	
+	<select id="getHouseReviewTotalCount" parameterType="string" resultType="int">
+		select count(*)
+		from house_review
+		where house_id = #{houseId}
+	</select>
+	
+	<select id="getHouseReviewAverageScoreByUserId" parameterType="int" resultType="float">
+		select avg(score) from my_house.house_review where user_id = #{userId}
+	</select>
+	
+	
+	<!-- 행정동 -->
+	<select id="getDongReviewScore" parameterType="string" resultType="double">
+		select ifnull(avg(score), 0) avg
+		from dong_review
+		where dong_code = #{dongCode}
+	</select>
+	
+	<insert id="dongReviewInsert" parameterType="com.mycom.myapp.review.dto.DongReviewDto">
+		insert into dong_review (dong_code, score, user_id, register_date)
+		values (#{dongCode}, #{score}, #{userId}, #{registerDate})
+	</insert>
+	
+	<update id="dongReviewUpdate" parameterType="com.mycom.myapp.review.dto.DongReviewDto" useGeneratedKeys="true" keyProperty="reviewId">
+		update dong_review
+		set score = #{score}
+		where review_id = #{reviewId}
+	</update>
+	
+	<delete id="dongReviewDelete" parameterType="int">
+		delete from dong_review
+		where review_id = #{reviewId};
+	</delete>
+	
+</mapper>

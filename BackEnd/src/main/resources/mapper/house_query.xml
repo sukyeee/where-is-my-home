@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.house.dao.HouseDao">
+	
+	<select id="getHouseList" parameterType="map" resultType="com.mycom.myapp.house.dto.HouseDto">
+		select hd.house_deal_id, hi.house_id, hi.dong_code,
+			   hd.deal_year, hd.deal_month, hd.deal_day,
+			   hd.deal_amount, hd.area,
+		       hd.floor, hi.build_year,
+		       hi.road_name, hi.dong,
+		       hi.apartment_name, hi.lng, hi.lat
+		from house_info hi,
+			 house_deal hd
+		where hi.house_id = hd.house_id
+			  and dong_code = #{dongCode}
+			  and apartment_name like concat("%", #{searchWord}, "%")
+			  and hd.deal_year between #{minYear} and #{maxYear}
+			  and hd.deal_month between #{minMonth} and #{maxMonth}
+			  and hd.deal_amount_int between #{minDealAmount} and #{maxDealAmount}
+			  and hd.area between #{minArea} and #{maxArea} 
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="getHouseGugunList" parameterType="map" resultType="com.mycom.myapp.house.dto.HouseDto">
+		select hd.house_deal_id, hi.house_id, hi.dong_code,
+			   hd.deal_year, hd.deal_month, hd.deal_day,
+			   hd.deal_amount, hd.area,
+		       hd.floor, hi.build_year,
+		       hi.road_name, hi.dong,
+		       hi.apartment_name, hi.lng, hi.lat
+		from house_info hi,
+			 house_deal hd
+		where hi.house_id = hd.house_id
+			  and left(dong_code, 4) = left(#{dongCode}, 4)
+			  and apartment_name like concat("%", #{searchWord}, "%")
+			  and hd.deal_year between #{minYear} and #{maxYear}
+			  and hd.deal_month between #{minMonth} and #{maxMonth}
+			  and hd.deal_amount_int between #{minDealAmount} and #{maxDealAmount}
+			  and hd.area between #{minArea} and #{maxArea} 
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="getHouseListLocationAvg" parameterType="map" resultType="com.mycom.myapp.house.dto.LocationDto">
+		select avg(hi.lat) latAvg, avg(hi.lng) lngAvg
+		from house_info hi,
+			 house_deal hd
+		where hi.house_id = hd.house_id
+			  and hi.dong_code = #{dongCode}
+		      and hi.apartment_name like concat("%", #{searchWord}, "%")
+			  and hd.deal_year between #{minYear} and #{maxYear}
+			  and hd.deal_month between #{minMonth} and #{maxMonth}
+			  and hd.deal_amount_int between #{minDealAmount} and #{maxDealAmount}
+			  and hd.area between #{minArea} and #{maxArea} 
+	  	limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="getHouseListTotalCount" parameterType="map" resultType="int">
+		select count(*)
+		from house_deal hd,
+			 house_info hi
+		where hi.house_id = hd.house_id
+			  and dong_code = #{dongCode}
+			  and apartment_name like concat("%", #{searchWord}, "%")
+			  and hd.deal_year between #{minYear} and #{maxYear}
+			  and hd.deal_month between #{minMonth} and #{maxMonth}
+			  and hd.deal_amount_int between #{minDealAmount} and #{maxDealAmount}
+			  and hd.area between #{minArea} and #{maxArea}
+	</select>
+	
+	<select id="getHouseGugunListTotalCount" parameterType="map" resultType="int">
+		select count(*)
+		from
+		(select hi.house_id
+		from house_deal hd,
+			 house_info hi
+		where hi.house_id = hd.house_id
+			  and left(dong_code, 4) = left(#{dongCode}, 4)
+			  and apartment_name like concat("%", #{searchWord}, "%")
+			  and hd.deal_year between #{minYear} and #{maxYear}
+			  and hd.deal_month between #{minMonth} and #{maxMonth}
+			  and hd.deal_amount_int between #{minDealAmount} and #{maxDealAmount}
+			  and hd.area between #{minArea} and #{maxArea}
+		group by hi.house_id) a
+	</select>
+	
+	<select id="getHouseDetail" parameterType="string" resultType="com.mycom.myapp.house.dto.HouseDto">
+		select hd.house_deal_id, hi.house_id, hi.dong_code,
+			   hd.deal_amount, hd.area, hd.floor,
+			   hi.build_year, hi.road_name,
+			   hi.dong, hi.apartment_name,
+			   hi.lng, hi.lat
+		from house_info hi,
+			 house_deal hd
+		where hi.house_id = hd.house_id
+			  and hd.house_deal_id = #{houseDealId};
+	</select>
+	
+	<select id="getHouseDealListByHouseId" parameterType="string" resultType="com.mycom.myapp.house.dto.HouseDto">
+		SELECT `house_deal`.`house_deal_id`,`house_deal`.`deal_amount`,`house_deal`.`deal_year`,`house_deal`.`deal_month`,
+				`house_deal`.`deal_day`,`house_deal`.`area`,`house_deal`.`floor`,`house_deal`.`cancel_deal_type`,`house_deal`.`house_id`
+		FROM `my_house`.`house_deal`
+		WHERE `house_deal`.`house_id` = #{houseId} and cancel_deal_type = ""
+	</select>
+	
+	<select id="getDongCount" parameterType="string" resultType="com.mycom.myapp.house.dto.DongCountDto">
+		select b.dong_code, b.gugun_name, count(*) house_count
+		from
+		(select hd.house_id, ANY_VALUE(hi.dong_code), ANY_VALUE(dc.gugun_name)
+		from house_deal hd,
+			 house_info hi,
+		     dong_code dc
+		where hd.house_id = hi.house_id
+			  and dc.dong_code = hi.dong_code
+			  and left(dc.dong_code, 4) like left(#{dongCode}, 4)
+		group by hd.house_id) a, (select dong_code, gugun_name
+		from dong_code
+		where dong_code = #{dongCode}) b
+	</select>
+	
+	<!-- <select id="getDongCount" parameterType="string" resultType="com.mycom.myapp.house.dto.DongCountDto">
+		select ANY_VALUE(hi.dong_code) dong_code, ANY_VALUE(dc.gugun_name) gugun_name, ifnull(count(*), 0) houseCount
+		from house_deal hd,
+			 house_info hi,
+		     dong_code dc
+		where hd.house_id = hi.house_id
+			  and dc.dong_code = hi.dong_code
+			  and left(dc.dong_code, 4) like left(#{dongCode}, 4)
+		group by left(hi.dong_code, 4);
+	</select> -->
+</mapper>

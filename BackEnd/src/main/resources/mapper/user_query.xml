@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.user.dao.UserDao">
+
+	<insert id="userRegister" parameterType="com.mycom.myapp.user.dto.UserDto">
+		insert into users
+		( user_name, user_nickname, user_password, user_email, user_register_date, code )
+		values ( #{userName}, #{userNickname}, #{userPassword}, #{userEmail}, now(), '001' )
+	</insert>
+	
+	
+	<select id="userDetail"  resultType="com.mycom.myapp.user.dto.UserDto">
+		select user_id, user_name, user_nickname, user_password, user_email, user_profile_image_url, user_register_date, user_score, code
+		from users
+		where user_id = #{userId}
+	</select>
+	   
+	<delete id="userDelete" parameterType="int">
+		delete from users where user_id = #{userId}
+	</delete>
+	   
+	  
+ 	<update id="userUpdate" parameterType="com.mycom.myapp.user.dto.UserDto">
+		update users
+	   	set user_name = #{userName},
+	 	   user_email = #{userEmail},
+	   	   user_nickname = #{userNickname},
+	   	   user_password = #{userPassword}	
+	   	WHERE user_id = #{userId}
+	</update>
+	
+	<update id="userScoreUpdate" parameterType="map">
+		update users
+		set user_score = #{avgScore}
+		where user_id = #{userId};
+	</update>
+	
+	<!-- 사용자가 작성한 리뷰 리스트 -->
+	<select id="userReview"  resultType="com.mycom.myapp.user.dto.UserDto">
+		select hr.content, hr.score, hi.apartment_name, u.user_profile_image_url, u.user_name, u.user_id, u.user_score, hr.score, hr.review_id
+		from house_review hr, users u, house_info hi
+		where hr.house_id = hi.house_id
+		and u.user_id = hr.user_id
+		and u.user_id = #{userId}
+	</select>
+	
+	<!-- 사용자가 작성한 리뷰 개수  -->
+	<select id="userReviewTotalCount"  resultType="int">
+		select count(*)
+		from house_review
+		where user_id = #{userId}
+	</select>
+	
+	
+	
+	<!-- 사용자 프로필 업데이트  -->
+	<insert id="insertFile" parameterType="com.mycom.myapp.user.dto.UserFileDto" >
+		INSERT INTO `my_house`.`users_file`
+		(`user_id`,`file_name`,`file_size`,`file_content_type`,`file_url`,`register_date`,`code`)
+		VALUES (#{userId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now(), #{code})
+	</insert>
+	
+	<select id="selectfileUrlDeleteList" parameterType="int" resultType="String">
+		SELECT `users_file`.`file_url`
+		FROM `my_house`.`users_file`
+		WHERE `users_file`.`user_id` = #{userId}
+	</select>
+	
+	<delete id="deleteFile" parameterType="int">
+		DELETE FROM `my_house`.`users_file`
+		WHERE `users_file`.`user_id` = #{userId}
+	</delete>
+	
+	<!-- 프로필 변경 시 -> user 테이블 안에 프로필 안에 user_profile_image_url 업데이트  --> 
+	<update id="userProfileUpdate" parameterType="com.mycom.myapp.user.dto.UserDto">
+		update users
+		set user_profile_image_url = #{userProfileImageUrl}
+		where user_id = #{userId}
+	</update>
+
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//myboard.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myboard.dao.BoardDao"> 
+
+	<select id="boardList" parameterType="map" resultType="com.mycom.myboard.dto.BoardDto">
+		select b.board_id, b.user_seq, u.user_name, u.user_profile_image_url, b.title, b.content, b.reg_dt, b.read_count
+        from BOARD b, USERS u
+        where b.user_seq = u.user_seq
+        order by b.board_id desc
+        limit #{limit} offset #{offset}
+	</select>
+
+	<select id="boardListTotalCount" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<select id="boardListSearchWord" parameterType="map" resultType="com.mycom.myboard.dto.BoardDto">
+		select b.board_id, b.user_seq, u.user_name, u.user_profile_image_url, b.title, b.content, b.reg_dt, b.read_count
+        from BOARD b, USERS u
+        where b.user_seq = u.user_seq
+        	  and b.title like concat("%", #{searchWord}, "%")
+        order by b.board_id desc
+        limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="boardListSearchWordTotalCount" parameterType="string" resultType="int">
+		select count(*) from board
+		where title like concat("%", #{searchWord}, "%")
+	</select>
+	
+	<select id="boardDetail" parameterType="int" resultType="com.mycom.myboard.dto.BoardDto">
+		select b.board_id, b.user_seq, u.user_name, u.user_profile_image_url, b.title, b.content, b.reg_dt, b.read_count
+        from BOARD b, USERS u
+        where b.user_seq = u.user_seq
+        	  and b.board_id = #{boardId}
+	</select>
+	
+	<select id="boardDetailFileList" parameterType="int" resultType="com.mycom.myboard.dto.BoardFileDto">
+		select file_id, board_id, file_name, file_size, file_content_type, file_url, reg_dt
+		from board_file
+		where board_id = #{boardId}
+	</select>
+	
+	<insert id="boardInsert" parameterType="com.mycom.myboard.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardId">
+		insert into board (user_seq, title, content, reg_dt, read_count)
+		values (#{userSeq}, #{title}, #{content}, now(), 0)
+	</insert>
+	
+	<insert id="boardFileInsert" parameterType="com.mycom.myboard.dto.BoardFileDto">
+		insert into board_file (board_id, file_name, file_size, file_content_type, file_url)
+		values (#{boardId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl})
+	</insert>
+	
+	<update id="boardUpdate" parameterType="com.mycom.myboard.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardId">
+		update board
+		set title = #{title}
+			, content = #{content}
+		where board_id = #{boardId}
+	</update>
+	
+	<delete id="boardDelete" parameterType="int">
+		delete from board
+		where board_id = #{boardId}
+	</delete>
+	
+	<delete id="boardFileDelete" parameterType="int">
+		delete from board_file
+		where board_id = #{boardId}
+	</delete>
+	
+	<select id="boardFileUrlDeleteList" parameterType="int" resultType="string">
+		select file_url from board_file
+		where board_id = #{boardId};
+	</select>
+	
+	<!-- 조회수 -->
+	<select id="boardUserReadCount" parameterType="map" resultType="int">
+		select count(*)
+		from board_user_read
+		where board_id = #{boardId}
+			  and user_seq = #{userSeq}
+	</select>
+	
+	<insert id="boardUserReadInsert" parameterType="map">
+		insert into board_user_read
+		(board_id, user_seq)
+		values (#{boardId}, #{userSeq})
+	</insert>
+	
+	<update id="boardReadCountUpdate" parameterType="int">
+		update board
+		set read_count = read_count + 1
+		where board_id = #{boardId}
+	</update>
+	
+	<update id="boardReadCountDelete" parameterType="int">
+		delete from board_user_read
+		where board_id = #{boardId}
+	</update>
+	
+</mapper>

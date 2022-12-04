@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//myboard.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.event.dao.EventDao"> 
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="com.mycom.myapp.event.dto.EventDto" useGeneratedKeys="true" keyProperty="eventId">
+		INSERT INTO `my_house`.`event`
+		(`user_id`,`code`,`title`,`content`,`start_date`,`end_date`,`register_date`,`read_count`)
+		VALUES (#{userId},#{code},#{title},#{content},#{startDate},#{endDate}, now(), 0)
+	</insert>
+	
+	<insert id="insertFile" parameterType="com.mycom.myapp.event.dto.EventFileDto" >
+		INSERT INTO `my_house`.`event_file`
+		(`event_id`,`file_name`,`file_size`,`file_content_type`,`file_url`,`register_date`,`code`)
+		VALUES (#{eventId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now(), #{code})
+	</insert>
+	
+	<insert id="insertUserJoin" parameterType="com.mycom.myapp.event.dto.EventParamDto">
+		INSERT INTO `my_house`.`event_join`
+		(`event_id`,`user_id`)
+		VALUES (#{eventId}, #{userId})		
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM `my_house`.`event`
+		WHERE event_id = #{eventId}
+	</delete>
+	
+	<select id="selectfileUrlDeleteList" parameterType="int" resultType="String">
+		SELECT `event_file`.`file_url`
+		FROM `my_house`.`event_file`
+		WHERE `event_file`.`event_id` = #{eventId}
+	</select>
+	
+	<delete id="deleteFile" parameterType="int">
+		DELETE FROM `my_house`.`event_file`
+		WHERE `event_file`.`event_id` = #{eventId}
+	</delete>
+	
+	<delete id="deleteUserRead" parameterType="int">
+		DELETE FROM `my_house`.`event_user_read`
+		WHERE `event_user_read`.`event_id` = #{eventId}
+	</delete>
+	
+	<delete id="deleteUserJoinByUserIdAndEventId" parameterType="int">
+		DELETE FROM `my_house`.`event_join`
+		WHERE `user_id` = #{userId} and `event_id` = #{eventId}
+	</delete>
+	
+	<delete id="deleteUserJoinByUserId" parameterType="int">
+		DELETE FROM `my_house`.`event_join`
+		WHERE `user_id` = #{userId}
+	</delete>
+
+	<delete id="deleteUserJoinByEventId" parameterType="int">
+		DELETE FROM `my_house`.`event_join`
+		WHERE `event_id` = #{eventId}
+	</delete>
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="com.mycom.myapp.event.dto.EventDto">
+		UPDATE `my_house`.`event`
+		SET `code` = #{code},`title` = #{title},`content` = #{content},`start_date` = #{startDate},	`end_date` = #{endDate}
+		WHERE `event_id` = #{eventId}
+	</update>
+	
+	<!-- 목록 조회 -->
+	<select id="selectList" parameterType="com.mycom.myapp.event.dto.EventParamDto" resultType="com.mycom.myapp.event.dto.EventDto">
+		SELECT `event`.`event_id`, `event`.`user_id`, `event`.`code`, `event`.`title`, `event`.`content`, `event`.`start_date`, `event`.`end_date`, `event`.`register_date`, `event`.`read_count`
+		FROM `my_house`.`event`
+		ORDER BY `event_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="selectListTotalCount" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`event`;
+	</select>
+	
+	<select id="selectListSearchWord" parameterType="com.mycom.myapp.event.dto.EventParamDto" resultType="com.mycom.myapp.event.dto.EventDto">
+		SELECT `event`.`event_id`, `event`.`user_id`, `event`.`code`, `event`.`title`, `event`.`content`, `event`.`start_date`, `event`.`end_date`, `event`.`register_date`, `event`.`read_count`
+		FROM `my_house`.`event`
+		WHERE `title` like concat('%', #{searchWord}, '%')
+		ORDER BY `event_id` desc
+		LIMIT #{limit} OFFSET #{offset};
+	</select>
+	
+	<select id="selectListSearchWordTotalCount" parameterType="com.mycom.myapp.event.dto.EventParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`event`
+		WHERE `title` like concat('%', #{searchWord}, '%')
+	</select>
+	
+	<select id="selectListSearchCode" parameterType="com.mycom.myapp.event.dto.EventParamDto" resultType="com.mycom.myapp.event.dto.EventDto">
+		SELECT `event`.`event_id`, `event`.`user_id`, `event`.`code`, `event`.`title`, `event`.`content`, `event`.`start_date`, `event`.`end_date`, `event`.`register_date`, `event`.`read_count`
+		FROM `my_house`.`event`
+		WHERE `code` = #{code}
+		ORDER BY `event_id` desc
+		LIMIT #{limit} OFFSET #{offset};
+	</select>
+	
+	<select id="selectListSearchCodeTotalCount" parameterType="com.mycom.myapp.event.dto.EventParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`event`
+		WHERE `code` = #{code}
+		ORDER BY `event_id` desc
+		LIMIT #{limit} OFFSET #{offset};
+	</select>
+	
+	<!-- 상세 조회 -->
+	<select id="selectDetail" parameterType="int" resultType="com.mycom.myapp.event.dto.EventDto">
+		SELECT `event`.`event_id`, `event`.`user_id`, `event`.`code`, `event`.`title`, `event`.`content`, `event`.`start_date`, `event`.`end_date`, `event`.`register_date`, `event`.`read_count`
+		FROM `my_house`.`event`
+		WHERE event_id = #{eventId}
+	</select>
+	
+	<select id="selectDetailFileList" parameterType="int" resultType="com.mycom.myapp.event.dto.EventFileDto">
+		SELECT `event_file`.`file_id`,`event_file`.`event_id`,`event_file`.`file_name`,`event_file`.`file_size`,
+			`event_file`.`file_content_type`,`event_file`.`file_url`,`event_file`.`register_date`,`event_file`.`code`
+		FROM `my_house`.`event_file`
+		WHERE `event_id` = #{eventId};
+	</select>
+	
+	<!-- 참여 신청 여부 조회 -->
+	<select id="selectUserJoin" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`event_join`
+		WHERE `event_id` = #{eventId} and `user_id` = #{userId};
+	</select>
+	
+	<!-- 조회수 -->
+	<select id="selectUserReadCount" parameterType="com.mycom.myapp.event.dto.EventParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`event_user_read`
+		WHERE `event_id` = #{eventId} and `user_id` = #{userId};		
+	</select>
+	
+	<insert id="insertUserRead" parameterType="map">
+		INSERT INTO `my_house`.`event_user_read`
+		(`event_id`,`user_id`)
+		VALUES (#{eventId}, #{userId})
+	</insert>
+	
+	<update id="updateEventReadCount" parameterType="int">
+		update event
+		   set read_count = read_count + 1
+		 where event_id = #{eventId}		
+	</update>
+</mapper>

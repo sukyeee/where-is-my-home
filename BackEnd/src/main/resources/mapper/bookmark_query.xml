@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//myboard.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.bookmark.dao.BookmarkDao"> 
+
+
+
+	<!-- 목록 조회 -->
+	<select id="selectList" parameterType="com.mycom.myapp.bookmark.dto.BookmarkParamDto" resultType="com.mycom.myapp.bookmark.dto.BookmarkDto">
+
+<!-- 	house_deal  테이블에서 해당 house_deal_id를 가진 정보들을 select -->
+		 select hi.house_id, b.bookmark_id, hd.house_deal_id, hd.deal_amount, hd.deal_year, hd.deal_month, hd.deal_day, hd.area, hd.floor, hi.apartment_name, hi.dong, u.user_name
+		 from bookmark b, house_deal hd, house_info hi, users u
+		 where b.house_deal_id = hd.house_deal_id
+		 and hd.house_id = hi.house_id
+		 and u.user_id = #{userId}
+		 ORDER BY bookmark_id desc
+		 LIMIT #{limit} OFFSET #{offset}
+ 
+<!-- 북마크에 추가하려면 ? 내집찾기에서 하트를 누르면 bookmark insert -->
+<!-- 제거하려면 ? 북마크 페이지에서 하트를 누르면 bookmark delete -->
+
+	</select>
+	
+	<select id="selectListTotalCount" parameterType="com.mycom.myapp.bookmark.dto.BookmarkParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`bookmark`
+		where user_id = #{userId}
+	</select>
+	
+	<select id="selectListFilterDong" parameterType="com.mycom.myapp.bookmark.dto.BookmarkParamDto" resultType="com.mycom.myapp.bookmark.dto.BookmarkDto">
+		 select hd.deal_amount, hd.deal_year, hd.deal_month, hd.deal_day, hd.area, hd.floor, hi.apartment_name, hi.dong, u.user_name
+		 from bookmark b, house_deal hd, house_info hi, users u
+		 where b.house_deal_id = hd.house_deal_id
+		 and hd.house_id = hi.house_id
+		 and u.user_id = #{userId}
+		 and hi.dong like concat('%', #{dong}, '%')
+		 ORDER BY bookmark_id desc
+		 LIMIT #{limit} OFFSET #{offset} 
+	</select>
+	
+	<select id="selectListFilterDongTotalCount" parameterType="com.mycom.myapp.bookmark.dto.BookmarkParamDto" resultType="int">
+		SELECT count(*)
+		FROM bookmark b, house_info hi
+		where b.user_id = #{userId}
+		and  hi.dong like concat('%', #{dong}, '%')
+	</select>
+	
+	<!-- 행정동 리스트만 조회 -->
+	<select id="selectDongList" parameterType="com.mycom.myapp.bookmark.dto.BookmarkParamDto" resultType="String">
+		select distinct(hi.dong)
+		from bookmark b, house_deal hd, house_info hi
+		where b.house_deal_id = hd.house_deal_id
+		and hd.house_id = hi.house_id
+		and user_id = #{userId}
+	</select>
+
+
+	<!-- 상세 조회 -->
+	<select id="selectDetail" parameterType="int" resultType="com.mycom.myapp.bookmark.dto.BookmarkDto">
+		select hd.house_deal_id, hi.house_id
+		from bookmark b, house_deal hd, house_info hi
+		WHERE b.bookmark_id = #{bookmarkId}
+		and b.house_deal_id = hd.house_deal_id
+		and hd.house_id = hi.house_idc
+
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="com.mycom.myapp.bookmark.dto.BookmarkDto" useGeneratedKeys="true" keyProperty="bookmarkId">
+		INSERT INTO `my_house`.`bookmark`
+		(user_id, house_deal_id)
+		VALUES (#{userId}, #{houseDealId})
+	</insert>
+	
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM `my_house`.`bookmark`
+		WHERE bookmark_id = #{bookmarkId}
+	</delete>
+	
+	
+	
+	
+	<!-- 동별 코드 얻어오기  -->
+	<!-- 내 북마크에 있는 동들 꺼내서 filter ? -->
+		
+	
+	
+	
+</mapper>

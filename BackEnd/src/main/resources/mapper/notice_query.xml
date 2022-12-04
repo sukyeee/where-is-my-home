@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//myboard.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.notice.dao.NoticeDao"> 
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="com.mycom.myapp.notice.dto.NoticeDto" useGeneratedKeys="true" keyProperty="noticeId">
+		INSERT INTO `my_house`.`notice`
+		(`user_id`,`code`,`title`,`content`,`register_date`,`read_count`)
+		VALUES (#{userId},#{code},#{title},#{content}, now(), 0)
+	</insert>
+	
+	<insert id="insertFile" parameterType="com.mycom.myapp.notice.dto.NoticeFileDto" >
+		INSERT INTO `my_house`.`notice_file`
+		(`notice_id`,`file_name`,`file_size`,`file_content_type`,`file_url`,`register_date`,`code`)
+		VALUES (#{noticeId}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl}, now(), #{code})
+	</insert>
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM `my_house`.`notice`
+		WHERE notice_id = #{noticeId}
+	</delete>
+	
+	<select id="selectfileUrlDeleteList" parameterType="int" resultType="String">
+		SELECT `notice_file`.`file_url`
+		FROM `my_house`.`notice_file`
+		WHERE `notice_file`.`notice_id` = #{noticeId}
+	</select>
+	
+	<delete id="deleteFile" parameterType="int">
+		DELETE FROM `my_house`.`notice_file`
+		WHERE `notice_file`.`notice_id` = #{noticeId}
+	</delete>
+	
+	<delete id="deleteUserRead" parameterType="int">
+		DELETE FROM `my_house`.`notice_user_read`
+		WHERE `notice_user_read`.`notice_id` = #{noticeId}
+	</delete>
+	
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="com.mycom.myapp.notice.dto.NoticeDto">
+		UPDATE `my_house`.`notice`
+		SET `code` = #{code},`title` = #{title},`content` = #{content}
+		WHERE `notice_id` = #{noticeId}
+	</update>
+	
+	<!-- 목록 조회 -->
+	<select id="selectList" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="com.mycom.myapp.notice.dto.NoticeDto">
+		SELECT `notice`.`notice_id`, `notice`.`user_id`, `notice`.`code`, `notice`.`title`, `notice`.`content`, `notice`.`register_date`, `notice`.`read_count`
+		FROM `my_house`.`notice`
+		ORDER BY `notice_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="selectListTotalCount" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`notice`
+	</select>
+	
+	<select id="selectListSearchWord" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="com.mycom.myapp.notice.dto.NoticeDto">
+		SELECT `notice`.`notice_id`, `notice`.`user_id`, `notice`.`code`, `notice`.`title`, `notice`.`content`, `notice`.`register_date`, `notice`.`read_count`
+		FROM `my_house`.`notice`
+		WHERE `title` like concat('%', #{searchWord}, '%')
+		ORDER BY `notice_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="selectListSearchWordTotalCount" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`notice`
+		WHERE `title` like concat('%', #{searchWord}, '%')
+	</select>
+	
+	<select id="selectListSearchCode" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="com.mycom.myapp.notice.dto.NoticeDto">
+		SELECT `notice`.`notice_id`, `notice`.`user_id`, `notice`.`code`, `notice`.`title`, `notice`.`content`, `notice`.`register_date`, `notice`.`read_count`
+		FROM `my_house`.`notice`
+		WHERE `code` = #{code}
+		ORDER BY `notice_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="selectListSearchCodeTotalCount" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`notice`
+		WHERE `code` = #{code}
+		ORDER BY `notice_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="selectListSearchWordAndCode" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="com.mycom.myapp.notice.dto.NoticeDto">
+		SELECT `notice`.`notice_id`, `notice`.`user_id`, `notice`.`code`, `notice`.`title`, `notice`.`content`, `notice`.`register_date`, `notice`.`read_count`
+		FROM `my_house`.`notice`
+		WHERE `code` = #{code} and `title` like concat('%', #{searchWord}, '%')
+		ORDER BY `notice_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="selectListSearchWordAndCodeTotalCount" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`notice`
+		WHERE `code` = #{code} and `title` like concat('%', #{searchWord}, '%')
+		ORDER BY `notice_id` desc
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<!-- 상세 조회 -->
+	<select id="selectDetail" parameterType="int" resultType="com.mycom.myapp.notice.dto.NoticeDto">
+		SELECT `notice`.`notice_id`, `notice`.`user_id`, `notice`.`code`, `notice`.`title`, `notice`.`content`, `notice`.`register_date`, `notice`.`read_count`
+		FROM `my_house`.`notice`
+		WHERE notice_id = #{noticeId}
+	</select>
+	
+	<select id="selectDetailFileList" parameterType="int" resultType="com.mycom.myapp.notice.dto.NoticeFileDto">
+		SELECT `notice_file`.`file_id`,`notice_file`.`notice_id`,`notice_file`.`file_name`,`notice_file`.`file_size`,
+			`notice_file`.`file_content_type`,`notice_file`.`file_url`,`notice_file`.`register_date`,`notice_file`.`code`
+		FROM `my_house`.`notice_file`
+		WHERE `notice_id` = #{noticeId};
+	</select>
+	
+	<!-- 조회수 -->
+	<select id="selectUserReadCount" parameterType="com.mycom.myapp.notice.dto.NoticeParamDto" resultType="int">
+		SELECT count(*)
+		FROM `my_house`.`notice_user_read`
+		WHERE `notice_id` = #{noticeId} and `user_id` = #{userId};		
+	</select>
+	
+	<insert id="insertUserRead" parameterType="map">
+		INSERT INTO `my_house`.`notice_user_read`
+		(`notice_id`,`user_id`)
+		VALUES (#{noticeId}, #{userId})
+	</insert>
+	
+	<update id="updateNoticeReadCount" parameterType="int">
+		update notice
+		   set read_count = read_count + 1
+		 where notice_id = #{noticeId}		
+	</update>
+</mapper>

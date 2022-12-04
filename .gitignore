@@ -1,0 +1,9 @@
+/.metadata/
+
+*/app.log
+app.log
+BackEnd/log/*
+BackEnd/src/main/resources/static/upload/
+BackEnd/src/main/resources/application.properties
+FrontEnd/.env
+BackEnd/src/main/resources/config/application.properties

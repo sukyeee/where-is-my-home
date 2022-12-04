@@ -22,23 +22,23 @@ import com.mycom.myapp.user.dto.UserDto;
 		 Object handler) throws Exception {
 		
 		 System.out.println("LoginInterceptor : preHandle !!!");
-//		
-//		 // CORS put, delete 요청에 대한 허락
-//		 if (request.getMethod().equals("OPTIONS")) return true;
-//		
-//		 HttpSession session = request.getSession();
-//		 UserDto userDto = (UserDto) session.getAttribute("userDto");
-//		
-//		 if (userDto == null) {
-//			 Gson gson = new Gson();
-//			 JsonObject jsonObject = new JsonObject();
-//			 jsonObject.addProperty("result", "login");
-//			 String jsonStr = gson.toJson(jsonObject);
-//			 response.getWriter().write(jsonStr);
-//			
-//			 return false;
-//		 }
-//		
+		
+		 // CORS put, delete 요청에 대한 허락
+		 if (request.getMethod().equals("OPTIONS")) return true;
+		
+		 HttpSession session = request.getSession();
+		 UserDto userDto = (UserDto) session.getAttribute("userDto");
+		
+		 if (userDto == null) {
+			 Gson gson = new Gson();
+			 JsonObject jsonObject = new JsonObject();
+			 jsonObject.addProperty("result", "login");
+			 String jsonStr = gson.toJson(jsonObject);
+			 response.getWriter().write(jsonStr);
+			
+			 return false;
+		 }
+		
 		 return true; // 통과
 	
 	 }

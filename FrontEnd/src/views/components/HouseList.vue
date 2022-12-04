@@ -57,7 +57,7 @@
 											매물 상세 정보
 										</base-button>
 										<div class="ml-1 btnBookmark">
-											<i class="ni ni-favourite-28 text-danger display-4 pt-1"></i>
+											<i class="ni ni-favourite-28 text-danger display-4 pt-1" @click="bookmarkInsert(house.houseDealId)"></i>
 										</div>
 									</div>
 								</div>
@@ -93,6 +93,8 @@
 	import BaseButton from "../../components/BaseButton.vue";
 
 	import HouseDetailView from "@/views/HouseDetailView.vue";
+	import alertify from 'alertifyjs';
+	import http from "@/common/axios.js";
 
 	export default {
 		components: {
@@ -138,7 +140,33 @@
 				let dongCode = e.target.value;
 				this.$store.commit("SET_DONG_CODE", dongCode);
 				this.getHouseList();
-			}
+			},
+
+			   // 북마크 추가 ( 내집찾기 화면 )
+				 async bookmarkInsert(houseDealId) {
+
+					let formData = new FormData();
+					formData.append("houseDealId", houseDealId);
+
+					console.log(houseDealId);
+
+					try {
+
+						let { data } = await http.post('/bookmarks', formData);
+						console.log(data);
+
+						if (data.result == 'login') {
+							alertify.error('세션이 만료되었습니다.', 1.5);
+							this.$router.push("/login");
+						} else {
+							alertify.success('북마크가 추가되었습니다.', 1.5);
+						}
+
+					} catch (error) {
+						console.log(error);
+					}
+
+					},
 		},
 
 		watch: {

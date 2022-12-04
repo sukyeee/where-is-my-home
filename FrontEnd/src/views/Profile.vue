@@ -386,7 +386,7 @@ export default {
 									//    this.doLogout();
 									this.$router.push("/login");
 							} else {
-									alert("정보 수정이 완료되었습니다. ");
+								alertify.success("정보 수정이 완료되었습니다.", 1.5);
 									// this.$router.push("/");
 									//    this.$alertify.success("회원 탈퇴가 완료되었습니다.");
 

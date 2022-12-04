@@ -95,7 +95,7 @@
             <div class="card-profile-image d-lg-block d-none">
               <a href="#">
                 <img
-                  v-lazy="'img/theme/team-4-800x800.jpg'"
+                  v-lazy="fileRealPath"
                   class="rounded-circle"
                   style="height: 40px"
                 />
@@ -146,7 +146,10 @@ export default {
   // props: ["textColor"],
 
   data() {
-    return {};
+    return {
+      					// 파일 실제 경로
+					fileRealPath: require("../../../BackEnd/src/main/resources/static/img/noProfile.png"),
+    };
   },
 
   computed: {

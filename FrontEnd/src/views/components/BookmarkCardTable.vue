@@ -17,7 +17,7 @@
 											<div class="event-thumbnail" :data-join="bookmark.joinTag" :data-ended="bookmark.isEnded">
 												<div class="event-thumbnail-image">
 													<!-- <img :src="board.thumbnailImage" /> -->
-													<img src="" alt="매물 이미지.." class="m-5" />
+													<img src="../../../public/img/theme/house.jpg" alt="매물 이미지.." class="m-5" />
 												</div>
 												<div v-show="bookmark.joinTag" class="event-thumbnail-text">찜한 매물</div>
 												<!-- <div v-show="board.isEnded" class="event-thumbnail-text">마감된 이벤트</div> -->
@@ -146,7 +146,8 @@ export default {
 			// 현재 클릭된 houseId와 houseDealId 저장
 			await this.$store.dispatch("getHouseDetail", bookmark.houseDealId);
 			this.$store.commit("SET_SEARCH_LIST", { houseId: bookmark.houseId, houseDealId: bookmark.houseDealId });
-			this.$store.commit("SET_IS_DETAIL_OPEN");
+			this.$store.commit("SET_LIST_OPEN");
+			this.$store.commit("SET_DETAIL_OPEN");
 			this.$router.push("/house");
 		},
 

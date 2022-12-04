@@ -51,9 +51,9 @@ export default {
 
   /* Bookmark spec compare list */
   async getHouseSpecList(context) {
-    let houseSpecList = ["111101501000001", "111101501000006", "111101501000010", "111101501000015", "111101501000020"];
+    // let houseSpecList = ["111101501000001", "111101501000006", "111101501000010", "111101501000015", "111101501000020"];
 
-    //  let houseSpecList = this.state.bookmarks.bookmark.houseSpecList;
+     let houseSpecList = this.state.bookmarks.bookmark.houseSpecList;
     let params = houseSpecList.map((el) => `houseDealId=${el}`).join("&");
     console.log(params);
     try {

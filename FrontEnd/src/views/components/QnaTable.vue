@@ -22,9 +22,9 @@
       <table class="table table-hover bg-white p-3">
         <!-- table header-->
         <thead>
-          <th scope="col" class="text-center">제목</th>
-          <th scope="col" class="text-center">문의 내용</th>
-          <th scope="col" class="text-center">작성일</th>
+          <th scope="col-4" class="text-center">제목</th>
+          <th scope="col-6" class="text-center">문의 내용</th>
+          <th scope="col-2" class="text-center">작성일</th>
         </thead>
         <!-- table body -->
         <tbody>

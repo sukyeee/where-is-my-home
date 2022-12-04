@@ -44,17 +44,17 @@ export default {
   methods: {
     async searchNews(sido, dong) {
       let query = `sido=${sido}&dong=${dong}`;
-      // try {
-      //   let { data } = await http.get("/houses/news?" + query);
+      try {
+        let { data } = await http.get("/houses/news?" + query);
 
-      //   if (data.result == "login") {
-      //   } else {
-      //     this.newsList = data.items;
-      //     console.log(data.items);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
+        if (data.result == "login") {
+        } else {
+          this.newsList = data.items;
+          console.log(data.items);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   watch: {

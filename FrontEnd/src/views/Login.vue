@@ -81,8 +81,8 @@ export default {
 
   data() {
     return {
-      userEmail: "sk",
-      userPassword: "1234",
+      userEmail: "",
+      userPassword: "",
 
       modals: {
         modal1: false,

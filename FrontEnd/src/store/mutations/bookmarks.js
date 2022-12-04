@@ -43,7 +43,6 @@ export default {
     state.bookmarks.bookmark.houseId = payload.houseId;
   },
 
-
   /* 매물 스펙 비교 리스트 */
   SET_HOUSE_SPEC_LIST(state, payload) {
     state.bookmarks.bookmark.houseSpecList = payload;

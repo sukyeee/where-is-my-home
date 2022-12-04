@@ -72,8 +72,5 @@ export default {
 	// kakao map
 	kakaoMap: null,
 	curLat: 0,
-	curLng: 0,
-
-	sido: "서울시",
-	dong: "내수동",
+	curLng: 0
 };

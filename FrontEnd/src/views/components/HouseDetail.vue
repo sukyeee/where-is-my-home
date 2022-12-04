@@ -7,7 +7,7 @@
 			<card header-classes="bg-white px-3 pb-0 pt-2 " body-classes="px-3 py-3">
 				<template v-slot:header>
 					<div class="btnBookmark text-right">
-						<i class="ni ni-favourite-28 text-danger display-3 pt-1"></i>
+						<i class="ni ni-favourite-28 text-danger display-3 pt-1" style="cursor:pointer"></i>
 					</div>
 
 					<div class="display-3 text-default font-weight-800">
@@ -109,7 +109,32 @@
 			houseReviewScoreToFixed() {
 				return this.houseReviewScore.toFixed(1);
 			}
-		}
+		},
+					   // 북마크 추가 ( 내집찾기 화면 )
+						 async bookmarkInsert(houseDealId) {
+
+								let formData = new FormData();
+								formData.append("houseDealId", houseDealId);
+
+								console.log(houseDealId);
+
+								try {
+
+									let { data } = await http.post('/bookmarks', formData);
+									console.log(data);
+
+									if (data.result == 'login') {
+										alertify.error('세션이 만료되었습니다.', 1.5);
+										this.$router.push("/login");
+									} else {
+										alertify.success('북마크가 추가되었습니다.', 1.5);
+									}
+
+								} catch (error) {
+									console.log(error);
+								}
+
+							},
 	};
 </script>
 

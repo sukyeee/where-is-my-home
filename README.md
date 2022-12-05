@@ -29,16 +29,15 @@
 <p align="center">
 메인페이지<br>
 <img src="https://user-images.githubusercontent.com/68285665/205508093-4acbab74-041e-48fe-bff9-b52c76fd042a.png" width="500" height="500"/>
-
+</p>
+<p align="center">
 로그인/회원가입<br>
 <img src="https://user-images.githubusercontent.com/68285665/205508082-f12b5e1d-3ed3-44fe-9dda-4a1c47fa7afc.png" width="350" height="500"/>
 <img src="https://user-images.githubusercontent.com/68285665/205508088-41b57482-cd7e-4201-a4a2-318217735ec7.png" width="350" height="500"/>
-
 </p>
 
 <p align="center">
-공지사항/이벤트/Q&A
-
+공지사항/이벤트/Q&A<br>
  <img src="https://user-images.githubusercontent.com/68285665/205508095-072e1fb1-756a-4115-8010-fd30727a8fe9.png" width="350" height="500"/> 
 <img src="https://user-images.githubusercontent.com/68285665/205508102-6bb94bf6-5dea-4e12-a3ca-53a538e72ae4.png" width="350" height="500"/>
 <img src="https://user-images.githubusercontent.com/68285665/205508091-e04f81a6-49d6-408c-b83e-70374b58e2f7.png" width="350" height="500"/>

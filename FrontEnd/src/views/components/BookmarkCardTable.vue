@@ -17,7 +17,7 @@
 											<div class="event-thumbnail" :data-join="bookmark.joinTag" :data-ended="bookmark.isEnded">
 												<div class="event-thumbnail-image">
 													<!-- <img :src="board.thumbnailImage" /> -->
-													<img src="../../../public/img/theme/house.jpg" alt="매물 이미지.." class="m-5" />
+													<img src="../../../public/img/theme/house.jpg" alt="매물 이미지.." class="mt-4 mb-2" />
 												</div>
 												<div v-show="bookmark.joinTag" class="event-thumbnail-text">찜한 매물</div>
 												<!-- <div v-show="board.isEnded" class="event-thumbnail-text">마감된 이벤트</div> -->

@@ -41,7 +41,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: Components,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -50,7 +50,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: Landing,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -59,7 +59,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: Login,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -68,7 +68,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: Register,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -77,7 +77,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: Profile,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -104,7 +104,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: NoticeListView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -113,7 +113,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: NoticeInputView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -122,7 +122,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: NoticeDetailView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -131,7 +131,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: NoticeUpdateView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -140,7 +140,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: EventListView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -149,7 +149,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: EventInputView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -158,7 +158,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: EventDetailView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -167,7 +167,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: EventUpdateView,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 		{
@@ -203,7 +203,7 @@ export default new Router({
 			components: {
 				header: AppHeader,
 				default: Bookmark,
-				footer: AppFooter
+				// footer: AppFooter
 			}
 		},
 

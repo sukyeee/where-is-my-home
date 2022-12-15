@@ -480,7 +480,7 @@ export default {
 
   created() {
     this.$store.commit("INIT_HOUSE_LIST_PARAMS");
-    this.$store.commit("SET_DETAIL_CLOSE");
+    // this.$store.commit("SET_DETAIL_CLOSE");
     this.removeMarker(this.houseMarkers);
     this.getGeoPath(seoul);
   },

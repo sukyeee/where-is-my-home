@@ -56,8 +56,10 @@
 											<i class="ni ni-curved-next mr-1"></i>
 											매물 상세 정보
 										</base-button>
-										<div class="ml-1 btnBookmark">
-											<i class="ni ni-favourite-28 text-danger display-4 pt-1" @click="bookmarkInsert(house.houseDealId)"></i>
+										<div class="ml-1 btnBookmark"   v-for="(bookmark, index) in getterBookmarkList" :key="index" >
+											<!-- <i  class="ni ni-favourite-28 text-danger display-4 pt-1" @click="bookmarkInsert(house.houseDealId)"></i> -->
+											<i  v-show="bookmark.houseDealId == house.houseDealId" class="ni ni-favourite-28 text-danger display-4 pt-1 favorite" @click="bookmarkInsert(house.houseDealId)"></i>
+											<!-- <i  class="ni ni-favourite-28 text-default display-4 pt-1" @click="bookmarkInsert(house.houseDealId)"></i> -->
 										</div>
 									</div>
 								</div>
@@ -108,7 +110,8 @@
 				isDetailOpen: "getIsDetailOpen",
 				getterHouseList: "getHouseList",
 				getterHouseListTotalCount: "getHouseListTotalCount",
-				listType: "getListType"
+				listType: "getListType",
+				getterBookmarkList: "getBookmarkList"
 			})
 		},
 
@@ -141,6 +144,11 @@
 				this.$store.commit("SET_DONG_CODE", dongCode);
 				this.getHouseList();
 			},
+
+			async getBookmarkList() {
+				await this.$store.dispatch("bookmarkList");
+			},
+
 
 			   // 북마크 추가 ( 내집찾기 화면 )
 				 async bookmarkInsert(houseDealId) {
@@ -185,6 +193,9 @@
 			// dongCode 설정하고 처음에 아파트 리스트 가져오기
 			this.$store.commit("SET_HOUSE_LIST_MOVE_PAGE", this.currentPageIndex);
 			this.getHouseList();
+
+			// 북마크 리스트 가져오기 
+			this.getBookmarkList()
 		}
 	};
 </script>
@@ -217,6 +228,9 @@
 
 		&:hover {
 			opacity: 1;
+		}
+		.favorite {
+			opacity : 1;
 		}
 	}
 

@@ -7,7 +7,7 @@
 			<card header-classes="bg-white px-3 pb-0 pt-2 " body-classes="px-3 py-3">
 				<template v-slot:header>
 					<div class="btnBookmark text-right">
-						<i class="ni ni-favourite-28 text-danger display-3 pt-1" style="cursor:pointer"></i>
+						<i class="ni ni-favourite-28 text-danger display-3 pt-1" style="cursor:pointer"  @click="bookmarkInsert(houseDetail.houseDealId)" ></i>
 					</div>
 
 					<div class="display-3 text-default font-weight-800">
@@ -74,6 +74,8 @@
 
 <script>
 	import { mapGetters } from "vuex";
+	import http from "@/common/axios.js";
+	import alertify from 'alertifyjs';
 
 	export default {
 		data() {
@@ -99,7 +101,9 @@
 			...mapGetters({
 				isOpen: "getIsListOpen",
 				houseDetail: "getHouseDetail",
-				houseReviewScore: "getHouseReviewScore"
+				houseReviewScore: "getHouseReviewScore",
+				getterHouseList: "getHouseList",
+
 			}),
 
 			houseReviewScoreFloor() {
@@ -110,31 +114,46 @@
 				return this.houseReviewScore.toFixed(1);
 			}
 		},
-					   // 북마크 추가 ( 내집찾기 화면 )
-						 async bookmarkInsert(houseDealId) {
 
-								let formData = new FormData();
-								formData.append("houseDealId", houseDealId);
+		methods: {
 
-								console.log(houseDealId);
+			/* 아파트 매물 리스트 가져오기 */
+			async getHouseList() {
+				await this.$store.dispatch("getHouseList");
+			},
+			/* 아파트 상세 정보 가져오기 */
+			async getHouseDetail(houseDealId) {
+				await this.$store.dispatch("getHouseDetail", houseDealId);
+			},
 
-								try {
+				// 북마크 추가 ( 내집찾기 화면 )
+				async bookmarkInsert(houseDealId) {
 
-									let { data } = await http.post('/bookmarks', formData);
-									console.log(data);
+				let formData = new FormData();
+				formData.append("houseDealId", houseDealId);
 
-									if (data.result == 'login') {
-										alertify.error('세션이 만료되었습니다.', 1.5);
-										this.$router.push("/login");
-									} else {
-										alertify.success('북마크가 추가되었습니다.', 1.5);
-									}
+				console.log(houseDealId);
 
-								} catch (error) {
-									console.log(error);
-								}
+				try {
 
-							},
+					let { data } = await http.post('/bookmarks', formData);
+					console.log(data);
+
+					if (data.result == 'login') {
+						alertify.error('세션이 만료되었습니다.', 1.5);
+						this.$router.push("/login");
+					} else {
+						alertify.success('북마크가 추가되었습니다.', 1.5);
+						this.getHouseList(); // 실시간 리스트 업데이트
+					}
+
+				} catch (error) {
+					console.log(error);
+				}
+
+				},
+		}
+					
 	};
 </script>
 

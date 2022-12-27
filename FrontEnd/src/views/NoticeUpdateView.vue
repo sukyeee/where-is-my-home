@@ -7,13 +7,7 @@
         <!-- 카테고리 선택 -->
         <div class="row">
           <div class="col-lg-3 col-sm-6 form-group">
-            <base-dropdown
-              class="h-100 w-100 border rounded d-flex flex-row align-items-center"
-              tag="div"
-              :title="category.name"
-              position="right"
-              menuClasses="w-100 select"
-            >
+            <base-dropdown class="h-100 w-100 border rounded d-flex flex-row align-items-center" tag="div" :title="category.name" position="right" menuClasses="w-100 select">
               <div v-for="(item, index) in categoryList" :key="index" class="dropdown-item" @click="selectCategory(item.name, item.code)">
                 {{ item.name }}
               </div>

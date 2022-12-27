@@ -9,7 +9,9 @@
         <!-- 이벤트 기간 입력 -->
         <div class="d-flex">
           <div class="form-group align-self-center ml-2 mr-4">
-            <small style="width: max-content" class="d-block text-uppercase font-weight-bold">이벤트 기간</small>
+            <small style="width: max-content" class="d-block text-uppercase font-weight-bold"
+              >이벤트 기간</small
+            >
           </div>
           <div style="width: 100%">
             <event-date-picker-range
@@ -153,7 +155,11 @@ export default {
       };
 
       try {
-        let { data } = await http.post("/events/" + this.$store.state.events.eventId, formData, options);
+        let { data } = await http.post(
+          "/events/" + this.$store.state.events.eventId,
+          formData,
+          options
+        );
 
         if (data.result == "login") {
           this.$router.push("/login");

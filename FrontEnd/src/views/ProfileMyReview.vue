@@ -9,13 +9,20 @@
           <small>{{ review.apartmentName }} </small>
           <badge pill type="yellow">
             별점 {{ review.score }}
-            <i class="fa fa-star text-yellow" aria-hidden="true" v-for="index in review.score" :key="index"></i>
+            <i
+              class="fa fa-star text-yellow"
+              aria-hidden="true"
+              v-for="index in review.score"
+              :key="index"
+            ></i>
           </badge>
         </span>
 
-
         <div class="d-flex justify-content-end w-100">
-          <div class="ml-2 mr-1 pointer justify-content-end" @click="openEditForm(index, review.content)">
+          <div
+            class="ml-2 mr-1 pointer justify-content-end"
+            @click="openEditForm(index, review.content)"
+          >
             <badge type="white" class="btnEdit">수정</badge>
           </div>
           <div class="pointer justify-content-end" @click="myReviewDelete(index)">
@@ -28,17 +35,30 @@
         <small class="text-gray">{{ review.registerDate }}</small>
       </div>
 
-
       <div v-if="review.isEditOpen" class="mt-2">
-
         <span class="d-inline display-4" v-for="(star, index) in starUpdateList" :key="index">
-          <i v-show="star" class="fa fa-star text-yellow" aria-hidden="true" @click="setStar(index, 'update')"
-            style="cursor: pointer"></i>
-          <i v-show="!star" class="fa fa-star-o text-yellow" aria-hidden="true" @click="setStar(index, 'update')"
-            style="cursor: pointer"></i>
+          <i
+            v-show="star"
+            class="fa fa-star text-yellow"
+            aria-hidden="true"
+            @click="setStar(index, 'update')"
+            style="cursor: pointer"
+          ></i>
+          <i
+            v-show="!star"
+            class="fa fa-star-o text-yellow"
+            aria-hidden="true"
+            @click="setStar(index, 'update')"
+            style="cursor: pointer"
+          ></i>
         </span>
-        <textarea class="form-control" id="reviewText" rows="3" placeholder="리뷰를 작성해보세요 📑"
-          v-model="reviewUpdateContent"></textarea>
+        <textarea
+          class="form-control"
+          id="reviewText"
+          rows="3"
+          placeholder="리뷰를 작성해보세요 📑"
+          v-model="reviewUpdateContent"
+        ></textarea>
         <div>
           <base-button size="sm" type="gray" outline class="mt-1" @click="myReviewUpdate(index)">
             확인
@@ -52,25 +72,18 @@
       <div v-else class="mt-1 ml-1">{{ review.content }}</div>
     </div>
   </div>
-
-
-
-
-
 </template>
 <script>
 import { mapGetters } from "vuex";
 import alertify from "alertifyjs";
 
 export default {
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       starUpdateList: [false, false, false, false, false],
       reviewUpdateContent: "",
-    }
+    };
   },
   computed: {
     ...mapGetters({
@@ -83,15 +96,14 @@ export default {
   },
 
   methods: {
-
     // 내가 쓴 리뷰 리스트 가져오기
     async getReviewList() {
-      console.log("리뷰리스트 가져오기")
+      console.log("리뷰리스트 가져오기");
       await this.$store.dispatch("getReviewList");
 
-      console.log(this.getUserInfo)
+      console.log(this.getUserInfo);
 
-      console.log("리뷰리스트~~~", this.getterReviewList)
+      console.log("리뷰리스트~~~", this.getterReviewList);
     },
 
     /* 수정 폼 열기 */
@@ -144,14 +156,8 @@ export default {
         for (let i = 0; i < 5 - idx; i++) this.starUpdateList.push(false);
       }
     },
-
-
-
-  }
-
-
+  },
 };
-
 </script>
 <style lang="scss" scoped>
 .house-review-section {

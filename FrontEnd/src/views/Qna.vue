@@ -14,16 +14,14 @@
 <script>
 import QnaTable from "@/views/components/QnaTable.vue";
 import BasePagination from "../components/BasePagination.vue";
-  import CommonBackground from "./components/CommonBackground.vue"
-  import CommonBanner from "./components/CommonBanner.vue"
+import CommonBackground from "./components/CommonBackground.vue";
+import CommonBanner from "./components/CommonBanner.vue";
 
 export default {
   name: "qna",
-  components: { QnaTable, BasePagination, CommonBackground, CommonBanner  },
+  components: { QnaTable, BasePagination, CommonBackground, CommonBanner },
   data() {
-    return {
-
-    };
+    return {};
   },
 };
 </script>

@@ -9,7 +9,8 @@
       expand
       title="Default Color"
       class="mt-4"
-      :content-id="`navbar-${menu.type}`">
+      :content-id="`navbar-${menu.type}`"
+    >
       <div class="row" slot="content-header" slot-scope="{ closeMenu }">
         <div class="col-6 collapse-brand">
           <a href="./index.html">

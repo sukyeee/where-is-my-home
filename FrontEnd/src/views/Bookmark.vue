@@ -16,12 +16,18 @@
 import BookmarkTable from "@/views/components/BookmarkTable.vue";
 import BasePagination from "../components/BasePagination.vue";
 import HouseSpecCompareModal from "@/views/components/HouseSpecCompareModal.vue";
-  import CommonBackground from "./components/CommonBackground.vue"
-  import CommonBanner from "./components/CommonBanner.vue"
+import CommonBackground from "./components/CommonBackground.vue";
+import CommonBanner from "./components/CommonBanner.vue";
 
 export default {
   name: "bookmark",
-  components: { BookmarkTable, BasePagination, HouseSpecCompareModal, CommonBackground, CommonBanner },
+  components: {
+    BookmarkTable,
+    BasePagination,
+    HouseSpecCompareModal,
+    CommonBackground,
+    CommonBanner,
+  },
   data() {
     return {
       houseSpec: false,
@@ -39,5 +45,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

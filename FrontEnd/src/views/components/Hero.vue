@@ -18,12 +18,14 @@
           <div class="col-lg-12 text-left pt-lg w-100">
             <p
               class="display-4 text-white mt-4 font-italic font-weight-700"
-              style="text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2)">
+              style="text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2)"
+            >
               나의 집은 도대체 어디에? 당신의 집을 찾아보세요!
             </p>
             <div
               class="display-1 text-white mb-5 font-italic font-weight-800"
-              style="text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2)">
+              style="text-shadow: 2px 1px 2px rgba(0, 0, 0, 0.2)"
+            >
               SSAFY - Where Is My House
             </div>
 
@@ -33,7 +35,8 @@
                 href="/apt"
                 class="mb-3 mb-sm-0"
                 type="default"
-                icon="ni ni-pin-3">
+                icon="ni ni-pin-3"
+              >
                 <router-link to="/house" class="text-white">내 집 찾으러 가기</router-link>
               </base-button>
 
@@ -42,7 +45,8 @@
                 href="/register"
                 class="mb-3 mb-sm-0"
                 type="white"
-                icon="ni ni-user-run">
+                icon="ni ni-user-run"
+              >
                 <router-link to="/register" class="text-default">회원가입하기</router-link>
               </base-button>
             </div>

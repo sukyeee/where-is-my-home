@@ -5,7 +5,9 @@
     <div class="view-content">
       <!-- 카테고리, 수정 삭제 버튼 -->
       <div class="container d-flex justify-content-between">
-        <small class="category border rounded px-3 bg-secondary"># {{ eventDetail.category.name }}</small>
+        <small class="category border rounded px-3 bg-secondary"
+          ># {{ eventDetail.category.name }}</small
+        >
         <div v-if="getIsLogin && getIsAdminUser">
           <base-button @click="routeToUpdateView" class="h-100">수정</base-button>
           <base-button @click="checkDelete" class="h-100" type="danger">삭제</base-button>
@@ -17,10 +19,12 @@
         <!-- 이벤트 기간 -->
         <div class="mt-3 d-flex">
           <div class="col-8 pl-0">
-            <span class="font-weight-bold">이벤트 기간</span><span class="px-3">|</span>{{ eventDetail.startDate + " ~ " + eventDetail.endDate }}
+            <span class="font-weight-bold">이벤트 기간</span><span class="px-3">|</span
+            >{{ eventDetail.startDate + " ~ " + eventDetail.endDate }}
           </div>
           <div class="col-4 pr-0 text-right">
-            <span class="font-weight-bold">작성일</span><span class="px-3">|</span>{{ eventDetail.registerDate }}
+            <span class="font-weight-bold">작성일</span><span class="px-3">|</span
+            >{{ eventDetail.registerDate }}
           </div>
         </div>
         <hr class="w-100 mb-5 mt-1" />
@@ -35,7 +39,13 @@
               <div>
                 <span class="fileName">{{ file.fileName }}</span>
                 &nbsp;&nbsp;
-                <a type="button" class="btn btn-outline btn-gray btn-xs" v-bind:href="file.fileUrl" v-bind:download="file.fileName">내려받기</a>
+                <a
+                  type="button"
+                  class="btn btn-outline btn-gray btn-xs"
+                  v-bind:href="file.fileUrl"
+                  v-bind:download="file.fileName"
+                  >내려받기</a
+                >
               </div>
             </div>
           </div>
@@ -44,8 +54,12 @@
       </div>
       <div class="container mt-5 d-flex justify-content-between">
         <base-button @click="$router.push({ name: 'event' })">&lt; 목록</base-button>
-        <base-button v-if="getIsLogin && isJoined" @click="checkJoinCancel" type="danger" class=""> 신청 취소 </base-button>
-        <base-button v-if="getIsLogin && !isJoined" @click="checkJoin" type="default" class=""> 참여 신청 </base-button>
+        <base-button v-if="getIsLogin && isJoined" @click="checkJoinCancel" type="danger" class="">
+          신청 취소
+        </base-button>
+        <base-button v-if="getIsLogin && !isJoined" @click="checkJoin" type="default" class="">
+          참여 신청
+        </base-button>
       </div>
     </div>
   </div>
